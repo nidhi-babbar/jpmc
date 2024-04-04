@@ -20,7 +20,7 @@ import com.jpmc.interview.service.PriceService;
 @Service
 public class CollateralServiceImpl implements CollateralService {
 
-	 @Autowired
+	    @Autowired
 	    private PositionService positionService;
 
 	    @Autowired

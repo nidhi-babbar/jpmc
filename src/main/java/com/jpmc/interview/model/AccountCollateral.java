@@ -6,7 +6,7 @@ public class AccountCollateral {
     private String accountId;
     private BigDecimal  collateralValue;
 
-    // Constructor, getters, and setters
+
     public AccountCollateral() {
     }
 

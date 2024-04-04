@@ -13,7 +13,7 @@ import com.jpmc.interview.model.Eligibility;
 public class EligibilityDaoImpl implements EligibilityDao {
 
     @Override
-    public List<Eligibility> checkEligibility(List<String> accountIds, List<String> assetIds) {
+    public List<Eligibility> getEligibilities() {
         
         List<Eligibility> eligibilities = new ArrayList<>();
         
@@ -29,19 +29,9 @@ public class EligibilityDaoImpl implements EligibilityDao {
         eligibility2.setAssetIds(Arrays.asList("S2", "S5"));
         eligibility2.setAccountIds(Arrays.asList("E1",  "E2"));
         eligibilities.add(eligibility2);
-        
-        List<Eligibility> finalEligibilities = new ArrayList<>();
-        for (Eligibility eligibility : eligibilities) {
-            if (containsAll(eligibility.getAccountIds(), accountIds) &&
-                containsAll(eligibility.getAssetIds(), assetIds)) {
-            	finalEligibilities.add(eligibility);
-            }
-        }
-        
-        return finalEligibilities;
+        return eligibilities;
+       
     }
     
-    private boolean containsAll(List<String> listToCheck, List<String> values) {
-        return listToCheck.containsAll(values);
-    }
+   
 }

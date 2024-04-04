@@ -8,7 +8,7 @@ public class Position {
 	 
 	 
 	public Position(String assetId, int quantity) {
-		super();
+
 		this.assetId = assetId;
 		this.quantity = quantity;
 	}

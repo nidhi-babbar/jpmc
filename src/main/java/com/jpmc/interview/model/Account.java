@@ -10,7 +10,6 @@ public class Account {
     	
     }
 
-    // Constructor, getters, and setters
     public Account(String accountId, List<Position> positions) {
         this.accountId = accountId;
         this.positions = positions;

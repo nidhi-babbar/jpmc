@@ -53,8 +53,9 @@
     ]
     ```
 
-### 3. Check Eligibility based on Account & AssetId 
+### 3. Check Eligibility based on AccountIds & AssetIds
 - **Endpoint:** `http://localhost:8080/eligibility`
+- **Assumption:** Assuming list of eligibilities saved in DB ,based on accountids and assetids,filtering the eligibility list.
 - **Input:** 
     ```json
     {

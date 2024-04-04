@@ -37,20 +37,22 @@ public class EligibilityServiceTest {
     	
         	
     
-    	List<String> assetIds = Arrays.asList("S1","S2","S3","S4");
-        List<String> accountIds = Arrays.asList("E1");
+    	
        
         
         List<Eligibility> expectedResult = new ArrayList<Eligibility>();
         Eligibility eligibility= new Eligibility();
         eligibility.setDiscount(0.9);
         eligibility.setEligible(true);
-        List<String> assetIdList = Arrays.asList("S1","S2","S3");
+        List<String> assetIdList = Arrays.asList("S1","S2","S3","S4");
         List<String> accountIdList = Arrays.asList("E1");
         eligibility.setAccountIds(accountIdList);
         eligibility.setAssetIds(assetIdList);
         expectedResult.add(eligibility);
-        when(eligibilityDao.checkEligibility(accountIds,assetIds)).thenReturn(expectedResult);
+        when(eligibilityDao.getEligibilities()).thenReturn(expectedResult);
+        
+        List<String> assetIds = Arrays.asList("S1","S2","S3");
+        List<String> accountIds = Arrays.asList("E1");
              
         List<Eligibility> result = eligibilityService.checkEligibility(accountIds,assetIds);
         assertEquals(expectedResult, result);

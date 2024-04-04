@@ -2,6 +2,7 @@ package com.jpmc.interview.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,19 +28,24 @@ public class EligibilityDaoTest {
 	   @Test
 	    public void testCheckEligibility() {
 	       
-	        List<String> accountIds = Arrays.asList("E1");
-	        List<String> assetIds = Arrays.asList("S1", "S3");
-	        List<Eligibility> result = eligibilityDao.checkEligibility(accountIds, assetIds);
 
-	        
+	        List<Eligibility> result = eligibilityDao.getEligibilities();
+
+	        List<Eligibility> eligibilityList= new ArrayList<Eligibility>();
 	        Eligibility expectedEligibility = new Eligibility();
 	        expectedEligibility.setEligible(true);
 	        expectedEligibility.setAssetIds(Arrays.asList("S1", "S3", "S4"));
 	        expectedEligibility.setAccountIds(Arrays.asList("E1"));
 	        expectedEligibility.setDiscount(0.9);
+	        eligibilityList.add(expectedEligibility);
+	        Eligibility expectedEligibility1 = new Eligibility();
+	        expectedEligibility1.setEligible(false);
+	        expectedEligibility1.setAssetIds(Arrays.asList("S2", "S5"));
+	        expectedEligibility1.setAccountIds(Arrays.asList("E1","E2"));
+	        eligibilityList.add(expectedEligibility1);
 	        
 	 
-	        assertEquals(Arrays.asList(expectedEligibility).size(), result.size());
+	        assertEquals(eligibilityList.size(), result.size());
 	    }
 
 

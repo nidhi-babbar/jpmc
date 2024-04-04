@@ -8,7 +8,7 @@ public class Eligibility {
     private List<String> accountIds;
     private double discount;
 
-    // Constructor, getters, and setters
+
     public Eligibility() {
     }
 
