@@ -1,7 +1,7 @@
 package com.jpmc.interview.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,21 +19,28 @@ public class EligibilityServiceImpl implements EligibilityService {
     @Override
     public List<Eligibility> checkEligibility(List<String> accountIds, List<String> assetIds) {
          
-    	List<Eligibility> finalEligibilities = new ArrayList<>();
+    
     	List<Eligibility> eligibilities=eligibilityDao.getEligibilities();
-         
-         for (Eligibility eligibility : eligibilities) {
-             if (containsAll(eligibility.getAccountIds(), accountIds) &&
-                 containsAll(eligibility.getAssetIds(), assetIds)) {
-             	finalEligibilities.add(eligibility);
-             }
-         }
-         
-         return finalEligibilities;
+         List<Eligibility> filteredByAccount = eligibilities.stream()
+                 .filter(eligibility -> anyMatch(eligibility.getAccountIds(), accountIds))
+                 .collect(Collectors.toList());
+
+
+         List<Eligibility> filteredByAsset = filteredByAccount.stream()
+                 .filter(eligibility -> anyMatch(eligibility.getAssetIds(), assetIds))
+                 .collect(Collectors.toList());
+
+         return filteredByAsset;
+	
     }
     
-    private boolean containsAll(List<String> listToCheck, List<String> values) {
-        return listToCheck.containsAll(values);
+    private boolean anyMatch(List<String> items, List<String> set) {
+        for (String item : items) {
+            if (set.contains(item)) {
+                return true;
+            }
+        }
+        return false;
     }
     
 }

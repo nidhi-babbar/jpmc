@@ -11,7 +11,7 @@
     [
         {
             "accountId": "E1",
-            "collateralValue": 6876.00
+           "collateralValue": 5481.00
         }
     ]
     ```
