@@ -24,12 +24,7 @@ import com.jpmc.interview.model.Eligibility;
 import com.jpmc.interview.model.EligibilityRequest;
 import com.jpmc.interview.model.Position;
 import com.jpmc.interview.service.CollateralService;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
+
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 
@@ -53,25 +48,32 @@ public class CollateralServiceImpl implements CollateralService {
 	    
 	    @Autowired
 		 private CollateralDao collateralDao;
-
+	    
+	    List<Account> account=null;
+	    Set<String> assetIds= new HashSet();
+	 
 	    
 	 
 	    @Override
 	    @CircuitBreaker(name = "priceService", fallbackMethod = "fallbackMethod1")
 	  	 public List<AccountCollateral> calculateCollateralValue(List<String> accountIds) {
-	    	Set<String> assetIds= new HashSet();
+	    	
+	    	
 	    	
 	       if(accountIds ==null || accountIds.size()==0) {
-	    	   throw new BadRequestException("Account id is empty ");
+	    	   throw new BadRequestException("Account id is empty");
 	       }
-	    	
-	    	List<AccountCollateral> accountCollaterals = new ArrayList<>();
-	        List<Account> account = positionServiceClient.getPositions(accountIds);
+	       
+	       List<AssetPrice> prices= new ArrayList<AssetPrice>();
+	      List<AccountCollateral> accountCollaterals = new ArrayList<>();
+	         account = positionServiceClient.getPositions(accountIds);
 	    	for(Account acc:account) {
 	    		assetIds.addAll(extractAssetIds(acc.getPositions()));
 	    	    }
 	    	List<String> assetList = new ArrayList<>(assetIds);
-	        List<AssetPrice> prices = priceServiceClient.getPrices(assetList);
+	    	
+	         prices = priceServiceClient.getPrices(assetList);
+	    	
 	        EligibilityRequest request= new EligibilityRequest();
 	        request.setAccountIds(accountIds);
 	        request.setAssetIds(assetList);
@@ -87,10 +89,22 @@ public class CollateralServiceImpl implements CollateralService {
 	    }
 	    
 	   
-		   public List<AccountCollateral> fallbackMethod1(List<String> assetIds,Throwable throwable)  {
+		   public List<AccountCollateral> fallbackMethod1(List<String> accountIds,Throwable throwable)  {
 	    	List<AccountCollateral> accountCollaterals = new ArrayList<>();
-	    	accountCollaterals.add( new AccountCollateral("E1", 1234));
-
+	    	  List<AssetPrice> prices = new ArrayList<>();
+	          prices.add(new AssetPrice("S1", 50.5));
+	          prices.add(new AssetPrice("S2", 20.2));
+	          prices.add(new AssetPrice("S3", 10.4));
+	          prices.add(new AssetPrice("S4", 15.5));
+	    	    EligibilityRequest request= new EligibilityRequest();
+		        request.setAccountIds(accountIds);
+		        List<String> assetList = new ArrayList<>(assetIds);
+		        request.setAssetIds(assetList);
+		        List<Eligibility> eligibility = eligibilityServiceClient.checkEligibility(request);
+				for(Account acc:account) {
+		        double collateralValue = calculateAccountCollateral(acc.getAccountId(), acc.getPositions(), eligibility, prices);
+	            accountCollaterals.add(collateralDao.calculateCollateralValue(acc.getAccountId(),collateralValue));
+				}
 		        return accountCollaterals;
 	       
 	    }

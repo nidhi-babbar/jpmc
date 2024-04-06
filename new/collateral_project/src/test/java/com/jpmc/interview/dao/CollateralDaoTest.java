@@ -24,7 +24,7 @@ public class CollateralDaoTest {
     public void testCalculateCollateralValue() {
    
         String accountId = "E1";
-        Double collateralValue = 6876.00;
+        Double collateralValue = 5481.00;
         AccountCollateral result = collateralDao.calculateCollateralValue(accountId, collateralValue);
         AccountCollateral expectedCollateral = new AccountCollateral(accountId, collateralValue);
         assertEquals(expectedCollateral.getAccountId(), result.getAccountId());

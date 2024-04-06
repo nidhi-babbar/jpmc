@@ -14,5 +14,5 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 public interface PositionServiceClient {
 
     @GetMapping("/api/positions")
-    List<Account> getPositions(@RequestBody List<String> accountIds);
+    List<Account> getPositions(@RequestBody List<String> assetList);
 }

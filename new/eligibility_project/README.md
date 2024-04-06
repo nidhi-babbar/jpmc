@@ -8,18 +8,36 @@
     ```json
     {
       "accountIds": ["E1"],
-      "assetIds": ["S1","S3"]
+      "assetIds": ["S1","S3","S4"]
     }
     ```
 - **Output:** 
     ```json
-    [
-        {
-            "eligible": true,
-            "assetIds": ["S1", "S3", "S4"],
-            "accountIds": ["E1"],
-            "discount": 0.9
-        }
-    ]
+   [
+    {
+        "eligible": true,
+        "assetIds": [
+            "S1",
+            "S2",
+            "S3"
+        ],
+        "accountIds": [
+            "E1"
+        ],
+        "discount": 0.9
+    },
+    {
+        "eligible": false,
+        "assetIds": [
+            "S4",
+            "S5"
+        ],
+        "accountIds": [
+            "E1",
+            "E2"
+        ],
+        "discount": 0.0
+    }
+]
     ```
 

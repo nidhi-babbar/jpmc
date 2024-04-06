@@ -43,8 +43,7 @@ public class CollateralControllerTest {
         when(collateralService.calculateCollateralValue(accountIds)).thenReturn(expectedCollaterals);
         List<AccountCollateral> result = collateralController.calculateCollateralValue(accountIds);
         assertEquals(expectedCollaterals, result);
-            
-    
+               
     
     }
     
@@ -52,7 +51,7 @@ public class CollateralControllerTest {
         List<AccountCollateral> expectedCollaterals = new ArrayList<>();
         AccountCollateral acc = new AccountCollateral();
         acc.setAccountId("E1");
-        acc.setCollateralValue(new BigDecimal(6876));
+        acc.setCollateralValue(new BigDecimal(5481));
         expectedCollaterals.add(acc);
         return expectedCollaterals;
     }
